@@ -1,0 +1,25 @@
+
+var db = require('./DB')
+
+exports.leer = function(usuario ,res){
+
+    db.buscarPersonas(datos=> {
+        res.json(validarUsuario(datos, usuario))
+    });
+}
+
+function validarUsuario(datos, usuario){
+    for(i=0; i< datos.length; i++){
+        element= datos[i];
+        if (element.Usuario == usuario.user && element.Password == usuario.password) {
+            return element;}
+    };
+    return null;
+}
+
+
+exports.insertar = function(usuario, res){
+    db.insertarUser(usuario, datos => { res.json(datos) });
+}
+
+
