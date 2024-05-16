@@ -1,14 +1,14 @@
 
-var db = require('./DB')
+var db = require('./DB');
 
 exports.leer = function(usuario ,res){
 
-    db.buscarPersonas(datos=> {
-        res.json(validarUsuario(datos, usuario))
+    db.buscarPersonas(datos=>{
+        res.json(validarusuario(datos, usuario))
     });
 }
 
-function validarUsuario(datos, usuario){
+function validarusuario(datos, usuario){
     for(i=0; i< datos.length; i++){
         element= datos[i];
         if (element.Usuario == usuario.user && element.Password == usuario.password) {
