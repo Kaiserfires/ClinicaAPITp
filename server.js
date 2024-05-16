@@ -1,5 +1,5 @@
 var express = require('express');
-var aplicacion = require('./aplicacion')
+var aplicacion = require('./aplicacion');
 //var cors =require('cors');
 
 var app =express();
@@ -16,7 +16,7 @@ app.post('/login/',(req,res)=>{
    
     var usuario= req.body;
     //res.json(aplicacion.leer());
-    
+    console.log(req.body.Usuario, req.body.Password);
     aplicacion.leer(usuario,res);
 
    /* if(usuario.password == usuario.usuario){
@@ -30,6 +30,7 @@ app.post('/login/',(req,res)=>{
 app.post('/leer/',(req,res)=>{
    
     var usuario= req.body;
+    console.log(usuario);
     res.send(usuario.usuario);
 });
 

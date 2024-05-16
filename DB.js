@@ -5,7 +5,8 @@ var conexion = mysql.createConnection({
     host:'sql10.freemysqlhosting.net',
     user:'sql10706491',
     password:'3Sb5wTcvNx',
-    database:'sql10706491'
+    database:'sql10706491',
+    port:3306
 });
 
 function conectar(){
@@ -20,9 +21,10 @@ function conectar(){
 
 exports.buscarPersonas = function(respuesta){
     conectar();
-    conexion.query("select * from Usuario", function(err, resultado, filas){
+    conexion.query("select * from Usuario",
+    function(err, resultado, filas){
         if(err) throw err;
-        console.log('estoy antes que hola');
+            console.log('estoy antes que hola');
         //console.log(resultado);
         respuesta(resultado);
     });

@@ -9,11 +9,11 @@ exports.leer = function(usuario ,res){
 }
 
 function validarusuario(datos, usuario){
-    for(i=0; i< datos.length; i++){
-        element= datos[i];
-        if (element.Usuario == usuario.user && element.Password == usuario.password) {
-            return element;}
-    };
+    for(i=0; i < datos.length; i++){
+        element = datos[i];
+        if (element.Usuario == usuario.usuario && element.Password == usuario.password)
+            return element;
+    }
     return null;
 }
 
