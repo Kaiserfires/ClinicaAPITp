@@ -1,13 +1,22 @@
 
 var mysql= require('mysql');
-
+/*
 var conexion = mysql.createConnection({
     host:'sql10.freemysqlhosting.net',
     user:'sql10706491',
     password:'3Sb5wTcvNx',
     database:'sql10706491',
     port:3306
+});*/
+
+var conexion = mysql.createConnection({
+    host:'mysql.db.mdbgo.com',
+    user:'kaiserfires_clinigui',
+    password:'Clinica-tp1',
+    database:'kaiserfires_cliniguitp',
+    port:3000
 });
+
 
 function conectar(){
 

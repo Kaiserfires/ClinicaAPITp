@@ -1,9 +1,8 @@
 var express = require('express');
 var aplicacion = require('./aplicacion');
-//var cors =require('cors');
+
 
 var app =express();
-//app.use(cors());
 app.use(express.json());
 
 app.get('/prueba/',(req,res)=>{
@@ -41,6 +40,6 @@ app.post('/insertar/', (req, res) => {
     
 });
 
-app.listen(7200,()=>{
+app.listen( process.env.PORT  || 3000,()=>{
     console.log('escuchando el puerto');
 })

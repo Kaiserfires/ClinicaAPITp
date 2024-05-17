@@ -2,5 +2,16 @@
   "dependencies": {
     "express": "^4.19.2",
     "mysql": "^2.18.1"
-  }
+  },
+  "name": "clinicaapitp",
+  "version": "1.0.0",
+  "description": "trabajoPractico",
+  "main": "aplicacion.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
 }
