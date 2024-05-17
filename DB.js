@@ -35,11 +35,11 @@ exports.buscarPersonas = function(respuesta){
 exports.insertarUser = function(usuario,retornar){
     conectar();
     var sql = "insert into Usuario (Nombre, Apellido,FecNac,Usuario,Password)";
-    sql= sql + " values ('" + usuario.nombre + "',";
-    sql= sql + "'" + usuario.apellido + "',";
-    sql= sql + "'" + usuario.nacimiento + "',";
-    sql= sql + "'" + usuario.usuario + "',";
-    sql= sql + "'" + usuario.password + "')";
+    sql= sql + " values ('" + usuario.Nombre + "',";
+    sql= sql + "'" + usuario.Apellido + "',";
+    sql= sql + "'" + usuario.Nacimiento + "',";
+    sql= sql + "'" + usuario.Usuario + "',";
+    sql= sql + "'" + usuario.Password + "')";
 
     conexion.query(sql,
         function(err, resultado, filas){

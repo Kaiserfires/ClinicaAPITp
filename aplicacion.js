@@ -11,7 +11,8 @@ exports.leer = function(usuario ,res){
 function validarusuario(datos, usuario){
     for(i=0; i < datos.length; i++){
         element = datos[i];
-        if (element.Usuario == usuario.usuario && element.Password == usuario.password)
+        console.log(element.Usuario, usuario.Usuario);
+        if (element.Usuario == usuario.Usuario && element.Password == usuario.Password)
             return element;
     }
     return null;
