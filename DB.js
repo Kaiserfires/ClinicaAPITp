@@ -14,7 +14,7 @@ var conexion = mysql.createConnection({
     user:'kaiserfires_clinigui',
     password:'Clinica-tp1',
     database:'kaiserfires_cliniguitp',
-    port:3000
+    port:3306
 });
 
 
@@ -43,12 +43,13 @@ exports.buscarPersonas = function(respuesta){
 
 exports.insertarUser = function(usuario,retornar){
     conectar();
-    var sql = "insert into Usuario (Nombre, Apellido,FecNac,Usuario,Password)";
+    var sql = "insert into Usuario (Nombre, Apellido, Usuario, Password, Usuario_tipo)";
     sql= sql + " values ('" + usuario.Nombre + "',";
     sql= sql + "'" + usuario.Apellido + "',";
-    sql= sql + "'" + usuario.Nacimiento + "',";
+    //sql= sql + "'" + usuario.Nacimiento + "',";
     sql= sql + "'" + usuario.Usuario + "',";
-    sql= sql + "'" + usuario.Password + "')";
+    sql= sql + "'" + usuario.Password + "',";
+    sql= sql + "'" + usuario.Usuario_tipo + "')";
 
     conexion.query(sql,
         function(err, resultado, filas){
