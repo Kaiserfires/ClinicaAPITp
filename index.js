@@ -1,10 +1,10 @@
 var express = require('express');
 var aplicacion = require('./aplicacion');
-
+var cors = require('cors');
 
 var app =express();
 app.use(express.json(),);
-
+app.use(cors());
 app.get('/prueba/',(req,res)=>{
    
     res.send('hello world');
