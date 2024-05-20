@@ -3,7 +3,7 @@ var aplicacion = require('./aplicacion');
 
 
 var app =express();
-app.use(express.json());
+app.use(express.json(),);
 
 app.get('/prueba/',(req,res)=>{
    
