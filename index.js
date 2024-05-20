@@ -5,7 +5,8 @@ var cors = require('cors');
 var app =express();
 app.use(express.json(),);
 app.use(cors());
-app.get('/prueba/',(req,res)=>{
+app.get('/pruebajson/',(req,res)=>{
+    res.header('Acces-Control-Allow-Origin','*');
    
     res.send('hello world');
     return res;
