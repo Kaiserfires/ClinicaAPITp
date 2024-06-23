@@ -43,13 +43,17 @@ exports.buscarPersonas = function(respuesta){
 
 exports.insertarUser = function(usuario,retornar){
     conectar();
-    var sql = "insert into Usuario (Nombre, Apellido, Usuario, Password, Usuario_tipo)";
+    var sql = "insert into Usuario (Nombre, Apellido, FecNac, Usuario, Password, Usuario_tipo, Especialidad, horario_entrada, horario_salida, dias_laborales)";
     sql= sql + " values ('" + usuario.Nombre + "',";
     sql= sql + "'" + usuario.Apellido + "',";
-    //sql= sql + "'" + usuario.Nacimiento + "',";
+    sql= sql + "'" + usuario.FecNac + "',";
     sql= sql + "'" + usuario.Usuario + "',";
     sql= sql + "'" + usuario.Password + "',";
-    sql= sql + "'" + usuario.Usuario_tipo + "')";
+    sql= sql + "'" + usuario.Usuario_tipo + "',";
+    sql= sql + "'" + usuario.Especialidad + "',";
+    sql= sql + "'" + usuario.horario_entrada + "',";
+    sql= sql + "'" + usuario.horario_salida + "',";
+    sql= sql + "'" + usuario.dias_laborales + "')";
 
     conexion.query(sql,
         function(err, resultado, filas){
