@@ -63,3 +63,69 @@ exports.insertarUser = function(usuario,retornar){
         retornar(resultado);
     });
 }
+//turnos y busqueda de medicos
+
+exports.obtenerEspecialidades = function(res) {
+    conectar();
+    conexion.query("SELECT Especialidad FROM Usuario WHERE Especialidad IS NOT NULL", function(err, resultado) {
+        if (err) throw err;
+        console.log(resultado);
+        res.json(resultado);
+    });
+}
+
+exports.obtenerMedicosPorEspecialidad = function(especialidadId, res) {
+    conectar();
+    conexion.query("SELECT * FROM Usuario WHERE Usuario_tipo = 2 AND LOWER(Especialidad) = LOWER(?)", [especialidadId], function(err, resultado) { //lower pasa todo a minuscula
+        if (err) throw err;
+        console.log(resultado);
+        res.json(resultado);
+    });
+}
+
+exports.obtenerDisponibilidadMedico = function(medicoId, res) {
+    conectar();
+    conexion.query("SELECT horario_entrada, horario_salida FROM Usuario WHERE id = ?", [medicoId], function(err, resultado) {
+        if (err) throw err;
+        var  disponibilidad =[];
+        disponibilidad  = generateHorarios(resultado[0].horario_entrada, resultado[0].horario_salida).slice();
+        //console.log(resultado);
+        console.log(resultado);
+        res.json(disponibilidad);
+    });
+}
+
+exports.crearTurno = function(turnoData, res) {
+    conectar();
+    var sql = "INSERT INTO Turnos (Paciente_id, Medico_id, Fecha, Hora, Estado) ";
+    sql= sql + " values ('" + Turnos.Paciente_id  + "',";
+    sql= sql + "'" + Turnos.Medico_id + "',";
+    sql= sql + "'" + Turnos.Fecha + "',";
+    sql= sql + "'" + Turnos.Hora + "',)";
+    //var values = [turnoData.Paciente_id, turnoData.Medico_id, turnoData.Fecha, turnoData.Hora];
+    
+    conexion.query(sql, values, function(err, resultado) {
+        if (err) throw err;
+        res.json({ id: resultado.insertId, ...turnoData });
+    });
+}
+
+exports.obtenerPacientes = function(res) {
+    conectar();
+    conexion.query("SELECT * FROM Usuario WHERE Usuario_tipo = 3", function(err, resultado) {
+        if (err) throw err;
+        res.json(resultado);
+    });
+}
+
+function generateHorarios(entrada, salida) {
+    const horarios = [];
+    let start = new Date(`1970-01-01 ${entrada}:00`);
+    const end = new Date(`1970-01-01 ${salida}:00`);
+    while (start < end) {
+        horarios.push(start.toTimeString().slice(0, 5) + " hs");
+        start.setMinutes(start.getMinutes() + 60);
+        //console.log(start);
+    }
+    return horarios;
+}

@@ -24,3 +24,25 @@ exports.insertar = function(usuario, res){
 }
 
 
+//turnos
+
+exports.obtenerEspecialidades = function(res) {
+    db.obtenerEspecialidades(res);
+}
+
+exports.obtenerMedicosPorEspecialidad = function(especialidadId, res) {
+    db.obtenerMedicosPorEspecialidad(especialidadId, res);
+}
+
+exports.obtenerDisponibilidadMedico = function(medicoId, res) {
+    db.obtenerDisponibilidadMedico(medicoId, res);
+}
+
+exports.crearTurno = function(turnoData, res) {
+    db.crearTurno(turnoData, res);
+}
+
+exports.obtenerPacientes = function(res) {
+    db.obtenerPacientes(res);
+}
+

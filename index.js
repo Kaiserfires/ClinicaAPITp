@@ -5,8 +5,8 @@ var cors = require('cors');
 var app =express();
 app.use(express.json(),);
 app.use(cors());
+
 app.get('/pruebajson/',(req,res)=>{
-   
     res.send('hello world');
     return res;
 });
@@ -39,6 +39,37 @@ app.post('/insertar/', (req, res) => {
     aplicacion.insertar(usuario, res);
     
 });
+
+
+//principio de turnos
+
+app.get('/especialidades/', (req, res) => {
+    aplicacion.obtenerEspecialidades(res);
+    return res;
+});
+
+app.get('/medicos/especialidad/:especialidadId', (req, res) => { //cada ":" es la varible a buscar
+    aplicacion.obtenerMedicosPorEspecialidad(req.params.especialidadId, res);
+    return res;
+});
+
+app.get('/medicos/:medicoId/disponibilidad', (req, res) => {
+    aplicacion.obtenerDisponibilidadMedico(req.params.medicoId, res);
+    return res;
+});
+
+app.post('/turnos/', (req, res) => {
+    aplicacion.crearTurno(req.body, res);
+});
+
+app.get('/pacientes/', (req, res) => {
+    aplicacion.obtenerPacientes(res);
+    return res;
+    
+    //return aplicacion.obtenerPacientes(res);
+});
+
+//fin de turnos
 
 app.listen( process.env.PORT  || 3000,()=>{
     console.log('escuchando el puerto');
