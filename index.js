@@ -48,6 +48,11 @@ app.get('/especialidades/', (req, res) => {
     return res;
 });
 
+app.get('/medicos/',(req,res)=>{
+    aplicacion.obtenerMedicos(res);
+    return res;
+});
+
 app.get('/medicos/especialidad/:especialidadId', (req, res) => { //cada ":" es la varible a buscar
     aplicacion.obtenerMedicosPorEspecialidad(req.params.especialidadId, res);
     return res;
@@ -70,6 +75,20 @@ app.get('/pacientes/', (req, res) => {
 });
 
 //fin de turnos
+
+//autorizar medicos.
+
+app.put('/Usuario/:Id/estado/', (req,res) => {
+    //aplicacion.cambiarEstado();
+    //return res;
+    var usuarioId=req.params.Id;
+    var nuevoEstado = req.body.estado;
+    aplicacion.cambiarEstado(usuarioId,nuevoEstado,res);
+});
+
+/*var usuarioId=req.params.id;
+var nuevoEstado = req.body.estado;
+aplicacion.cambiarEstado(usuarioId,nuevoEstado,res);*/
 
 app.listen( process.env.PORT  || 3000,()=>{
     console.log('escuchando el puerto');

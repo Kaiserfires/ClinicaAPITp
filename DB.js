@@ -118,6 +118,14 @@ exports.obtenerPacientes = function(res) {
     });
 }
 
+exports.obtenerMedicos = function(res) {
+    conectar();
+    conexion.query("SELECT * FROM Usuario WHERE Usuario_tipo = 2", function(err, resultado) {
+        if (err) throw err;
+        res.json(resultado);
+    });
+}
+
 function generateHorarios(entrada, salida) {
     const horarios = [];
     let start = new Date(`1970-01-01 ${entrada}:00`);
@@ -128,4 +136,16 @@ function generateHorarios(entrada, salida) {
         //console.log(start);
     }
     return horarios;
+}
+
+exports.cambiarEstado= function(usuarioId, nuevoEstado,res){
+    conectar();
+    var sql = "UPDATE Usuario SET estado = ? WHERE Id=? AND Usuario_tipo=2";
+    conexion.query(sql,[nuevoEstado, usuarioId], function(err, resultado){
+        if (err) throw err;
+            console.log("estado actualizado exitosamente");
+            res.json(resultado);
+        
+    });
+    
 }

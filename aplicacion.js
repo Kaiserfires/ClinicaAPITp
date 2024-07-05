@@ -30,6 +30,10 @@ exports.obtenerEspecialidades = function(res) {
     db.obtenerEspecialidades(res);
 }
 
+exports.obtenerMedicos = function(res) {
+    db.obtenerMedicos(res);
+}
+
 exports.obtenerMedicosPorEspecialidad = function(especialidadId, res) {
     db.obtenerMedicosPorEspecialidad(especialidadId, res);
 }
@@ -46,3 +50,6 @@ exports.obtenerPacientes = function(res) {
     db.obtenerPacientes(res);
 }
 
+exports.cambiarEstado= function(usuarioId, nuevoEstado,res){
+    db.cambiarEstado(usuarioId, nuevoEstado, res);
+}
