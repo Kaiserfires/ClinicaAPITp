@@ -81,6 +81,7 @@ app.get('/pacientes/', (req, res) => {
 app.put('/Usuario/:Id/estado/', (req,res) => {
     //aplicacion.cambiarEstado();
     //return res;
+    
     var usuarioId=req.params.Id;
     var nuevoEstado = req.body.estado;
     aplicacion.cambiarEstado(usuarioId,nuevoEstado,res);
