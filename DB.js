@@ -141,8 +141,8 @@ function generateHorarios(entrada, salida) {
 exports.cambiarEstado= function(usuarioId, nuevoEstado,res){
     console.log(nuevoEstado);
     conectar();
-    var sql = `UPDATE Usuario SET estado = '${nuevoEstado}' WHERE Id= '${usuarioId}' AND Usuario_tipo=2`;
-    conexion.query(sql,/*[nuevoEstado, usuarioId],*/ function(err, resultado){
+    var sql = "UPDATE Usuario SET estado = ? WHERE Id=? AND Usuario_tipo=2";
+    conexion.query(sql,[nuevoEstado, usuarioId], function(err, resultado){
         if (err) throw err;
             console.log("estado actualizado exitosamente");
             res.json(resultado);
