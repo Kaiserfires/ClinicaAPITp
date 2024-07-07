@@ -143,10 +143,13 @@ exports.cambiarEstado= function(usuarioId, nuevoEstado,res){
     conectar();
     var sql = "UPDATE Usuario SET estado = ? WHERE Id=? AND Usuario_tipo=2";
     conexion.query(sql,[nuevoEstado, usuarioId], function(err, resultado){
-        if (err) throw err;
-            console.log("estado actualizado exitosamente");
-            res.json(resultado);
-        
+        if (err) {
+            console.error("Error al actualizar el estado:", err);
+            res.status(500).send("Error al actualizar el estado");
+            return;
+        }
+        console.log("Estado actualizado exitosamente");
+        res.json(resultado);
     });
     
 }

@@ -83,7 +83,9 @@ app.put('/Usuario/:Id/estado/', (req,res) => {
     //return res;
     
     var usuarioId=req.params.Id;
-    var nuevoEstado = req.body.estado;
+    var nuevoEstado = req.body.habilitado ? 1:0;
+    console.log(nuevoEstado);
+    //aplicacion.cambiarEstado(req.params.Id,req.params.estado,res);
     aplicacion.cambiarEstado(usuarioId,nuevoEstado,res);
 });
 
