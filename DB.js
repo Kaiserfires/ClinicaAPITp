@@ -98,13 +98,14 @@ exports.obtenerDisponibilidadMedico = function(medicoId, res) {
 exports.crearTurno = function(turnoData, res) {
     conectar();
     var sql = "INSERT INTO Turnos (Paciente_id, Medico_id, Fecha, Hora, Estado) ";
-    sql= sql + " values ('" + Turnos.Paciente_id  + "',";
-    sql= sql + "'" + Turnos.Medico_id + "',";
-    sql= sql + "'" + Turnos.Fecha + "',";
-    sql= sql + "'" + Turnos.Hora + "',)";
+    sql= sql + " values ('" + turnoData.Paciente_id  + "',";
+    sql= sql + "'" + turnoData.Medico_id + "',";
+    sql= sql + "'" + turnoData.Fecha + "',";
+    sql= sql + "'" + turnoData.Hora + "',";
+    sql= sql + "'" + turnoData.Estado + "')";
     //var values = [turnoData.Paciente_id, turnoData.Medico_id, turnoData.Fecha, turnoData.Hora];
     
-    conexion.query(sql, values, function(err, resultado) {
+    conexion.query(sql, function(err, resultado) {
         if (err) throw err;
         res.json({ id: resultado.insertId, ...turnoData });
     });
