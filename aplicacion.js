@@ -26,6 +26,10 @@ exports.insertar = function(usuario, res){
 
 //turnos
 
+exports.obtenerTurnos = function(res) {
+    db.obtenerTurnos(res, datos =>{ res.json(datos) });
+};
+
 exports.obtenerEspecialidades = function(res) {
     db.obtenerEspecialidades(res);
 };
@@ -38,8 +42,13 @@ exports.obtenerMedicosPorEspecialidad = function(especialidadId, res) {
     db.obtenerMedicosPorEspecialidad(especialidadId, res);
 };
 
-exports.obtenerDisponibilidadMedico = function(medicoId, res) {
-    db.obtenerDisponibilidadMedico(medicoId, res);
+// Función para obtener días laborales disponibles
+exports.obternerDiasDispoTurnos = function(medicoId, res) {
+    db.obternerDiasDispoTurnos(medicoId, res);
+};
+
+exports.obtenerDisponibilidadMedico = function(medicoId, fecha, res) {
+    db.obtenerDisponibilidadMedico(medicoId, fecha, res);
 };
 
 exports.crearTurno = function(turnoData, res) {

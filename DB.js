@@ -83,17 +83,122 @@ exports.obtenerMedicosPorEspecialidad = function(especialidadId, res) {
     });
 }
 
-exports.obtenerDisponibilidadMedico = function(medicoId, res) {
+exports.obtenerDisponibilidadMedico = function(medicoId, fecha, res) {
     conectar();
+    // Consulta para obtener el horario de entrada y salida del médico
     conexion.query("SELECT horario_entrada, horario_salida FROM Usuario WHERE id = ?", [medicoId], function(err, resultado) {
+        if (err) throw err;
+
+        const horarioEntrada = resultado[0].horario_entrada;
+        const horarioSalida = resultado[0].horario_salida;
+
+        // Generar la lista de todos los horarios posibles en ese rango
+        let disponibilidad = generateHorarios(horarioEntrada, horarioSalida);
+
+        // Consulta para obtener los turnos ya ocupados en la fecha seleccionada
+        const sqlTurnosOcupados = "SELECT Hora FROM Turnos WHERE Medico_id = ? AND Fecha = ?";
+        conexion.query(sqlTurnosOcupados, [medicoId, fecha], function(err, turnosOcupados) {
+            if (err) throw err;
+
+            // Filtrar los horarios ocupados
+            const horasOcupadas = turnosOcupados.map(turno => turno.Hora); // Lista de horarios ocupados
+            disponibilidad = disponibilidad.filter(horario => !horasOcupadas.includes(horario));
+
+            // Retornar los horarios disponibles
+            res.json(disponibilidad);
+        });
+    });
+
+
+    /*conexion.query("SELECT horario_entrada, horario_salida FROM Usuario WHERE id = ?", [medicoId], function(err, resultado) {
         if (err) throw err;
         var  disponibilidad =[];
         disponibilidad  = generateHorarios(resultado[0].horario_entrada, resultado[0].horario_salida).slice();
         //console.log(resultado);
         console.log(resultado);
         res.json(disponibilidad);
+    });*/
+}
+
+exports.obtenerTurnos =function(res , respuesta){
+    conectar();
+    var sql= "SELECT * FROM Turnos";
+    conexion.query(sql, function(err, res){
+        if(err) throw err;
+        
+        respuesta(res);
     });
 }
+
+exports.obternerDiasDispoTurnos = function (medicoId, res) {
+    conectar();
+
+    const sqlUsuario = `
+        SELECT dias_laborales, horario_entrada, horario_salida 
+        FROM Usuario 
+        WHERE id = ? AND usuario_tipo = 2 AND estado = 1
+    `;
+
+    conexion.query(sqlUsuario, [medicoId], function(err, resultado) {
+        if (err) throw err;
+
+        const { dias_laborales, horario_entrada, horario_salida } = resultado[0];
+        const diasLaborales = dias_laborales.split(',').map(d => parseInt(d));
+
+        const fechasDisponibles = [];
+        const fechaActual = new Date();
+
+        // Revisamos los próximos 15 días
+        for (let i = 0; i < 15; i++) {
+            const fecha = new Date(fechaActual);
+            fecha.setDate(fecha.getDate() + i);
+
+            const diaSemana = fecha.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+            if (diasLaborales.includes(diaSemana)) {
+                const fechaFormateada = fecha.toISOString().split('T')[0];
+
+                // Verificamos si el día ya está completamente ocupado
+                const sqlTurnos = `
+                    SELECT COUNT(*) AS totalTurnos 
+                    FROM Turnos 
+                    WHERE Medico_id = ? AND Fecha = ? 
+                    AND Hora BETWEEN ? AND ?
+                `;
+                conexion.query(
+                    sqlTurnos,
+                    [medicoId, fechaFormateada, horario_entrada, horario_salida],
+                    function(err, resultadoTurnos) {
+                        if (err) throw err;
+
+                        // Si no todos los turnos están ocupados, agregamos la fecha disponible
+                        if (resultadoTurnos[0].totalTurnos < (parseInt(horario_salida) - parseInt(horario_entrada))) {
+                            fechasDisponibles.push({
+                                fecha: fechaFormateada,
+                                dia: obtenerNombreDia(diaSemana),
+                            });
+                        }
+
+                        // Si es el último día del ciclo, devolvemos la respuesta
+                        if (i === 14) {
+                            res.json(fechasDisponibles);
+                        }
+                    }
+                );
+            } else if (i === 14) {
+                // Si no quedan más días que revisar, devolvemos la respuesta
+                res.json(fechasDisponibles);
+            }
+        }
+    });
+};
+
+// Función auxiliar para obtener el nombre del día de la semana
+function obtenerNombreDia(dia) {
+    const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    return dias[dia];
+}
+
+
 
 exports.crearTurno = function(turnoData, res) {
     conectar();
@@ -138,6 +243,9 @@ function generateHorarios(entrada, salida) {
     }
     return horarios;
 }
+
+//function generateDiasLaborales(){}
+
 
 exports.cambiarEstado= function(usuarioId, nuevoEstado,res){
     console.log(nuevoEstado);

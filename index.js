@@ -58,8 +58,8 @@ app.get('/medicos/especialidad/:especialidadId', (req, res) => { //cada ":" es l
     return res;
 });
 
-app.get('/medicos/:medicoId/disponibilidad', (req, res) => {
-    aplicacion.obtenerDisponibilidadMedico(req.params.medicoId, res);
+app.get('/medicos/:medicoId/disponibilidad/:fecha', (req, res) => {
+    aplicacion.obtenerDisponibilidadMedico(req.params.medicoId, req.params.fecha, res);
     return res;
 });
 
@@ -67,11 +67,21 @@ app.post('/turnos/', (req, res) => {
     aplicacion.crearTurno(req.body, res);
 });
 
+app.get('/obtenerTurnos/', (req, res)=>{
+    aplicacion.obtenerTurnos(res);
+});
+
 app.get('/pacientes/', (req, res) => {
     aplicacion.obtenerPacientes(res);
     return res;
     
     //return aplicacion.obtenerPacientes(res);
+});
+
+
+// obtener días laborales disponibles de un médico
+app.get('/medicos/:medicoId/dias-laborales', (req, res) => {
+    aplicacion.obternerDiasDispoTurnos(req.params.medicoId, res);
 });
 
 //fin de turnos
