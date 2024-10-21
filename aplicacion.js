@@ -59,6 +59,14 @@ exports.obtenerPacientes = function(res) {
     db.obtenerPacientes(res);
 };
 
+exports.obtenerTurnosPorMedico =function(Medico_id,res){
+    db.obtenerTurnosPorMedico(Medico_id, res);
+}
+
 exports.cambiarEstado= function(usuarioId, nuevoEstado,res) {
     db.cambiarEstado(usuarioId, nuevoEstado, res);
 };
+
+exports.cambiarEstadoTurno= function(Id_Turno,nuevoEstadoT,res){
+    db.cambiarEstadoTurno(Id_Turno,nuevoEstadoT,res);
+}

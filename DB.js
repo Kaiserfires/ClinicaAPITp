@@ -232,19 +232,31 @@ exports.obtenerMedicos = function(res) {
     });
 }
 
-function generateHorarios(entrada, salida) {
-    const horarios = [];
-    let start = new Date(`1970-01-01 ${entrada}:00`);
-    const end = new Date(`1970-01-01 ${salida}:00`);
-    while (start < end) {
-        horarios.push(start.toTimeString().slice(0, 5) + " hs");
-        start.setMinutes(start.getMinutes() + 60);
-        //console.log(start);
-    }
-    return horarios;
+//obtiene turnos del medico logueado
+
+exports.obtenerTurnosPorMedico= function(Medico_id,res){
+    conectar();
+    conexion.query("SELECT * FROM Turnos WHERE Medico_id = ?", [Medico_id], function(err,resultado){
+        if(err) throw err;
+        res.json(resultado);
+    })
 }
 
-//function generateDiasLaborales(){}
+exports.cambiarEstadoTurno=function (Id_Turno,nuevoEstadoT,res){
+    conectar();
+    var sql="UPDATE Turnos SET Estado = ? WHERE Id_Turno = ?"
+    console.log(Id_Turno);
+    console.log(nuevoEstadoT);
+    conexion.query(sql,[nuevoEstadoT,Id_Turno], function(err, resultado){
+        if(err){
+            console.error("error al actualizar el estado:", err);
+            res.status(500).send("error al actualizar el estado");
+            return;
+        }
+        console.log("estado actualizado");
+        res.json(resultado)
+    })
+}
 
 
 exports.cambiarEstado= function(usuarioId, nuevoEstado,res){
@@ -261,4 +273,16 @@ exports.cambiarEstado= function(usuarioId, nuevoEstado,res){
         res.json(resultado);
     });
     
+}
+
+function generateHorarios(entrada, salida) {
+    const horarios = [];
+    let start = new Date(`1970-01-01 ${entrada}:00`);
+    const end = new Date(`1970-01-01 ${salida}:00`);
+    while (start < end) {
+        horarios.push(start.toTimeString().slice(0, 5) + " hs");
+        start.setMinutes(start.getMinutes() + 60);
+        //console.log(start);
+    }
+    return horarios;
 }

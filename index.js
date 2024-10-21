@@ -63,6 +63,12 @@ app.get('/medicos/:medicoId/disponibilidad/:fecha', (req, res) => {
     return res;
 });
 
+//obtiene turnos del medico logueado
+app.get('/medicos/:medicoId/turnos',(req,res)=>{
+    aplicacion.obtenerTurnosPorMedico(req.params.medicoId, res);
+}); 
+  
+
 app.post('/turnos/', (req, res) => {
     aplicacion.crearTurno(req.body, res);
 });
@@ -99,9 +105,15 @@ app.put('/Usuario/:Id/estado/', (req,res) => {
     aplicacion.cambiarEstado(usuarioId,nuevoEstado,res);
 });
 
-/*var usuarioId=req.params.id;
-var nuevoEstado = req.body.estado;
-aplicacion.cambiarEstado(usuarioId,nuevoEstado,res);*/
+app.put('/turno/estado/:id',(req, res) => {
+    const Id_Turno = req.params.id;
+    const nuevoEstadoT = req.body.Estado;
+    
+    aplicacion.cambiarEstadoTurno(Id_Turno,nuevoEstadoT,res);
+    
+    });
+
+
 
 app.listen( process.env.PORT  || 3000,()=>{
     console.log('escuchando el puerto');
