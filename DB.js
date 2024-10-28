@@ -311,7 +311,7 @@ exports.guardarCalificacion =function(req,res){
     conectar();
     const {Paciente_Id, Medico_Id, Calificacion} = req.body;
     var sql= 'INSERT INTO CalificacionPacienteMedico (Paciente_Id, Medica_Id, Calificacion) VALUES (?,?,?)';
-    conexion.query(SQL, [Paciente_Id, Medico_Id, Calificacion], (err)=>{
+    conexion.query(sql, [Paciente_Id, Medico_Id, Calificacion], (err)=>{
         if (err) throw err;
     });
 
