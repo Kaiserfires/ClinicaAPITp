@@ -23,6 +23,9 @@ exports.insertar = function(usuario, res){
     db.insertarUser(usuario, datos => { res.json(datos) });
 };
 
+exports.nombreUser=function(Id,res){
+    db.nombreUser(Id,res);
+};
 
 //turnos
 
@@ -69,4 +72,12 @@ exports.cambiarEstado= function(usuarioId, nuevoEstado,res) {
 
 exports.cambiarEstadoTurno= function(Id_Turno,nuevoEstadoT,res){
     db.cambiarEstadoTurno(Id_Turno,nuevoEstadoT,res);
+}
+
+exports.obtenerMedicosCalificados = function(Id, res){
+    db.obtenerMedicosCalificados(Id,res);
+}
+
+exports.guardarCalificacion = function(req,res){
+    db.guardarCalificacion(req,res);
 }

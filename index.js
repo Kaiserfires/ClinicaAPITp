@@ -92,6 +92,12 @@ app.get('/medicos/:medicoId/dias-laborales', (req, res) => {
 
 //fin de turnos
 
+
+//obtiene el nombre y el apellido
+app.get('/Usuario/:id',(req,res)=>{
+    aplicacion.nombreUser(req.params.id,res);
+});
+
 //autorizar medicos.
 
 app.put('/Usuario/:Id/estado/', (req,res) => {
@@ -106,15 +112,22 @@ app.put('/Usuario/:Id/estado/', (req,res) => {
 });
 
 app.put('/turno/estado/:id',(req, res) => {
-    const Id_Turno = req.params.id;
-    const nuevoEstadoT = req.body.Estado;
+    //const Id_Turno = req.params.id;
+    //const nuevoEstadoT = req.body.Estado;
     
-    aplicacion.cambiarEstadoTurno(Id_Turno,nuevoEstadoT,res);
+    aplicacion.cambiarEstadoTurno(req.params.id,req.body.Estado,res);
     
     });
 
+app.get('/Calificaciones/MedicosCalificados/:Id',(req,res)=> {
+    aplicacion.obtenerMedicosCalificados(req.params.Id,res);
+})
+
+app.post('/Calificaciones/Guardar',(req,res)=>{
+    aplicacion.guardarCalificacion(req,res);
+})
 
 
 app.listen( process.env.PORT  || 3000,()=>{
     console.log('escuchando el puerto');
-})
+});

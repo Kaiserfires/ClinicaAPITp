@@ -243,6 +243,7 @@ exports.obtenerTurnosPorMedico= function(Medico_id,res){
 }
 
 exports.cambiarEstadoTurno=function (Id_Turno,nuevoEstadoT,res){
+    console.log(nuevoEstadoT);
     conectar();
     var sql="UPDATE Turnos SET Estado = ? WHERE Id_Turno = ?"
     console.log(Id_Turno);
@@ -253,7 +254,7 @@ exports.cambiarEstadoTurno=function (Id_Turno,nuevoEstadoT,res){
             res.status(500).send("error al actualizar el estado");
             return;
         }
-        console.log("estado actualizado");
+        console.log(nuevoEstadoT);
         res.json(resultado)
     })
 }
@@ -273,6 +274,47 @@ exports.cambiarEstado= function(usuarioId, nuevoEstado,res){
         res.json(resultado);
     });
     
+}
+
+exports.nombreUser = function(Id, res){
+    console.log(Id);
+    conectar();
+    var sql = "SELECT Nombre FROM Usuario WHERE Id=?";
+    
+    conexion.query(sql, [Id], function(err, resultado) {
+        if (err) throw err;
+        console.log(resultado); // Mover el console.log aquí, después de obtener los datos
+        res.json(resultado);
+    });
+}
+
+exports.obtenerMedicosCalificados = function(Id, res){
+    conectar();
+    console.log(Id);
+    var sql ="SELECT u.Nombre, u.Apellido, u.Especialidad, t.Fecha, t.Estado FROM Turnos t JOIN Usuario u on t.Medico_Id = u.Id WHERE t.Paciente_Id = ? AND t.Estado = 'finalizado'";
+    conexion.query(sql,[Id], (err, resultado)=>{
+        if (err) throw err;
+        console.log(resultado);
+        res.json(resultado);
+    });
+}
+
+/*
+SELECT u.Nombre, u.Apellido, u.Especialidad, T.Fecha
+    FROM Turnos t
+    JOIN Usuario u on t.Medico_Id = u.Medico_Id
+    WHERE t.Paciente_Id = ? AND t.Estado = 'finalizado';
+    */
+
+
+exports.guardarCalificacion =function(req,res){
+    conectar();
+    const {Paciente_Id, Medico_Id, Calificacion} = req.body;
+    var sql= 'INSERT INTO CalificacionPacienteMedico (Paciente_Id, Medica_Id, Calificacion) VALUES (?,?,?)';
+    conexion.query(SQL, [Paciente_Id, Medico_Id, Calificacion], (err)=>{
+        if (err) throw err;
+    });
+
 }
 
 function generateHorarios(entrada, salida) {
