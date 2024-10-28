@@ -310,9 +310,10 @@ SELECT u.Nombre, u.Apellido, u.Especialidad, T.Fecha
 exports.guardarCalificacion =function(req,res){
     conectar();
     const {Paciente_Id, Medico_Id, Calificacion} = req.body;
-    var sql= 'INSERT INTO CalificacionPacienteMedico (Paciente_Id, Medica_Id, Calificacion) VALUES (?,?,?)';
-    conexion.query(sql, [Paciente_Id, Medico_Id, Calificacion], (err)=>{
+    var sql= 'INSERT INTO CalificacionPacienteMedico (Paciente_Id, Medico_Id, Calificacion) VALUES (?,?,?)';
+    conexion.query(sql, [Paciente_Id, Medico_Id, Calificacion], (resultado,err)=>{
         if (err) throw err;
+        res.json({ id: resultado.Id, ...resultado });
     });
 
 }
