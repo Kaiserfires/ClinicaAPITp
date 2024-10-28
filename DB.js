@@ -291,7 +291,7 @@ exports.nombreUser = function(Id, res){
 exports.obtenerMedicosCalificados = function(Id, res){
     conectar();
     console.log(Id);
-    var sql ="SELECT u.Nombre, u.Apellido, u.Especialidad, t.Fecha, t.Estado FROM Turnos t JOIN Usuario u on t.Medico_Id = u.Id WHERE t.Paciente_Id = ? AND t.Estado = 'finalizado'";
+    var sql ="SELECT u.Nombre, u.Apellido, u.Especialidad, t.Fecha, t.Estado, t.Medico_Id FROM Turnos t JOIN Usuario u on t.Medico_Id = u.Id WHERE t.Paciente_Id = ? AND t.Estado = 'finalizado'";
     conexion.query(sql,[Id], (err, resultado)=>{
         if (err) throw err;
         console.log(resultado);
